@@ -15,6 +15,9 @@ S3_OUTPUT_BUCKET = config["output"]["S3_OUTPUT_BUCKET"]
 
 
 def create_spark_session():
+    """
+    Create the spark session
+    """
     spark = SparkSession \
         .builder \
         .config("spark.jars.packages", "org.apache.hadoop:hadoop-aws:2.7.0") \
@@ -23,6 +26,12 @@ def create_spark_session():
 
 
 def process_song_data(spark, input_data, output_data):
+    """
+    It processes the song data JSONs. This will create both the songs and artists tables
+    :param spark: Spark session
+    :param input_data: Directory where the input data is located
+    :param output_data: Where the output files are going to be stored
+    """
     # get filepath to song data file
     song_data = os.path.join(input_data, 'song_data', '*', '*', '*')
 
@@ -58,6 +67,12 @@ def process_song_data(spark, input_data, output_data):
 
 
 def process_log_data(spark, input_data, output_data):
+    """
+    It processes the log data. This will create the users, time, and songplays tables
+    :param spark: Spark session
+    :param input_data: Directory where the input data is located
+    :param output_data: Where the output files are going to be stored
+    """
     # get filepath to log data file
     log_data = os.path.join(input_data, 'log_data', '*', '*')
 
@@ -163,6 +178,10 @@ def process_log_data(spark, input_data, output_data):
 
 
 def main(args):
+    """
+    Main function
+    :param args: If local option is provided, the script will run looking for local directories instead of S3 buckets
+    """
     spark = create_spark_session()
     if not args.local:
         input_data = "s3a://udacity-dend/"
