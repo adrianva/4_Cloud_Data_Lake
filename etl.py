@@ -11,6 +11,8 @@ config.read('dl.cfg')
 os.environ['AWS_ACCESS_KEY_ID'] = config["aws"]["AWS_ACCESS_KEY_ID"]
 os.environ['AWS_SECRET_ACCESS_KEY'] = config["aws"]["AWS_SECRET_ACCESS_KEY"]
 
+S3_OUTPUT_BUCKET = config["output"]["S3_OUTPUT_BUCKET"]
+
 
 def create_spark_session():
     spark = SparkSession \
@@ -164,7 +166,7 @@ def main(args):
     spark = create_spark_session()
     if not args.local:
         input_data = "s3a://udacity-dend/"
-        output_data = ""
+        output_data = S3_OUTPUT_BUCKET
     else:
         input_data, output_data = 'data', 'output'
 
