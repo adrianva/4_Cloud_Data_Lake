@@ -36,7 +36,7 @@ def process_song_data(spark, input_data, output_data):
     )
 
     # write songs table to parquet files partitioned by year and artist
-    songs_table.write.parquet(os.path.join(output_data, 'songs'), partitionBy=['year', 'artist_id'])
+    songs_table.write.mode("overwrite").parquet(os.path.join(output_data, 'songs'), partitionBy=['year', 'artist_id'])
 
     # extract columns to create artists table
     artists_table = spark.sql(
@@ -52,7 +52,7 @@ def process_song_data(spark, input_data, output_data):
     )
 
     # write artists table to parquet files
-    artists_table.write.parquet(os.path.join(output_data, 'artists'))
+    artists_table.write.mode("overwrite").parquet(os.path.join(output_data, 'artists'))
 
 
 def process_log_data(spark, input_data, output_data):
@@ -99,7 +99,7 @@ def process_log_data(spark, input_data, output_data):
     )
 
     # write users table to parquet files
-    users_table.write.parquet(os.path.join(output_data, 'users'))
+    users_table.write.mode("overwrite").parquet(os.path.join(output_data, 'users'))
 
     # extract columns to create time table
     time_table = spark.sql(
@@ -117,7 +117,7 @@ def process_log_data(spark, input_data, output_data):
     )
 
     # write time table to parquet files partitioned by year and month
-    time_table.write.parquet(os.path.join(output_data, 'time'), partitionBy=['year', 'month'])
+    time_table.write.mode("overwrite").parquet(os.path.join(output_data, 'time'), partitionBy=['year', 'month'])
 
     # read in song data to use for songplays table
     songs_df = spark.read.json(os.path.join(input_data, 'song_data', '*', '*', '*'))
@@ -157,7 +157,7 @@ def process_log_data(spark, input_data, output_data):
     )
 
     # write songplays table to parquet files partitioned by year and month
-    songplays_table.write.parquet(os.path.join(output_data, 'songplays'), partitionBy=['year', 'month'])
+    songplays_table.write.mode("overwrite").parquet(os.path.join(output_data, 'songplays'), partitionBy=['year', 'month'])
 
 
 def main(args):
