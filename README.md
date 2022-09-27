@@ -49,3 +49,13 @@ After that, we are ready to run the etl.py:
 ```
 python etl.py --local
 ```
+
+### Read from the Parquet files
+Once we have the output, we could read the data with something like this:
+
+```
+songplays_data = os.path.join(output_data, 'songplays')
+df = spark.read.parquet(songplays_data)
+```
+
+We could now operate with the Dataframe as usual.
